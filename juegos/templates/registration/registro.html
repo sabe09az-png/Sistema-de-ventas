@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Registrarse - System-Dead{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    <div class="bg-gray-800 rounded-2xl p-8 shadow-2xl">
+        <h2 class="text-2xl font-bold text-white text-center mb-2">Crear Cuenta</h2>
+        <p class="text-gray-400 text-center mb-6">Únete a la comunidad System-Dead</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="space-y-4">
+                <!-- Usuario -->
+                <div>
+                    <label class="block text-gray-300 mb-2 text-sm font-medium">Usuario</label>
+                    <input type="text" name="username" value="{{ form.username.value|default:'' }}" 
+                           class="w-full bg-gray-700 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="Elige un nombre de usuario" required>
+                    {% if form.username.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ form.username.errors.0 }}</p>
+                    {% endif %}
+                    <p class="text-gray-500 text-xs mt-1">Máximo 150 caracteres. Solo letras, números y @/./+/-/_</p>
+                </div>
+                
+                <!-- Correo electrónico -->
+                <div>
+                    <label class="block text-gray-300 mb-2 text-sm font-medium">Correo electrónico</label>
+                    <input type="email" name="email" value="{{ form.email.value|default:'' }}" 
+                           class="w-full bg-gray-700 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="tu@email.com" required>
+                    {% if form.email.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ form.email.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Contraseña -->
+                <div>
+                    <label class="block text-gray-300 mb-2 text-sm font-medium">Contraseña</label>
+                    <input type="password" name="password1" 
+                           class="w-full bg-gray-700 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="Crea una contraseña segura" required>
+                    {% if form.password1.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ form.password1.errors.0 }}</p>
+                    {% endif %}
+                    <ul class="text-gray-500 text-xs mt-1">
+                        <li>• Mínimo 8 caracteres</li>
+                        <li>• No puede ser solo números</li>
+                        <li>• No puede ser muy común</li>
+                    </ul>
+                </div>
+                
+                <!-- Confirmar contraseña -->
+                <div>
+                    <label class="block text-gray-300 mb-2 text-sm font-medium">Confirmar Contraseña</label>
+                    <input type="password" name="password2" 
+                           class="w-full bg-gray-700 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="Repite tu contraseña" required>
+                    {% if form.password2.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ form.password2.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+
+            </div>
+            
+            <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-bold mt-6 transition-colors">
+                Crear Mi Cuenta
+            </button>
+        </form>
+        
+        <div class="mt-6 text-center">
+            <p class="text-gray-400">
+                ¿Ya tienes cuenta? 
+                <a href="{% url 'login' %}" class="text-blue-400 hover:text-blue-300 font-semibold">
+                    Inicia sesión aquí
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

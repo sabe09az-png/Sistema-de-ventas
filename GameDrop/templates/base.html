@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>GameDrop</title>
+    <link rel="stylesheet" href="{% static 'juegos/css/style.css' %}">
+</head>
+<body>
+    <header class="menu-superior">
+        <h1>Game-Zher</h1>
+        <nav>
+            <a href="{% url 'ayuda' %}">Ayuda</a>
+            <a href="{% url 'colecciones' %}">Colecciones</a>
+            <a href="{% url 'juegos_lista' %}">Juegos</a>
+        </nav>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer>
+        <p>&copy; 2025 Game-Zher. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

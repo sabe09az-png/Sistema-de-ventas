@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Death System - Compras y Ventas{% endblock %}</title>
+    <link href="/static/css/output.css" rel="stylesheet">
+    {% load static %}
+</head>
+<body class="bg-black min-h-screen">
+    <!-- Header -->
+    <header class="bg-gray-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold">
+                    <a href="{% url 'dashboard' %}" class="hover:text-blue-400 transition-colors">Asthar</a>
+                </h1>
+                
+                <nav class="flex items-center space-x-6">
+                    <!-- Enlaces visibles para todos los usuarios autenticados -->
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="hover:text-blue-400 transition-colors">Inicio</a>
+                        <a href="{% url 'listar_productos' %}" class="hover:text-blue-400 transition-colors">Productos</a>
+                        <a href="{% url 'registrar_venta' %}" class="hover:text-blue-400 transition-colors">Nueva Venta</a>
+                        
+                        <!-- Solo Administrador puede ver compras y reportes completos -->
+                        {% if user.is_superuser or user.groups.all.0.name == 'Administrador' %}
+                            <a href="{% url 'registrar_compra' %}" class="hover:text-blue-400 transition-colors">Nueva Compra</a>
+                            <a href="{% url 'historial_compras' %}" class="hover:text-blue-400 transition-colors">Historial Compras</a>
+                            <a href="{% url 'historial_ventas' %}" class="hover:text-blue-400 transition-colors">Historial Ventas</a>
+                        {% endif %}
+
+                        <span class="text-green-400"> {{ user.username }}</span>
+      <form action="{% url 'logout' %}" method="post" class="inline">
+    {% csrf_token %}
+    <button type="submit" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded transition-colors">
+        Salir
+    </button>
+</form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded transition-colors">
+                            Entrar
+                        </a>
+                        <a href="{% url 'registro' %}" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded transition-colors">
+                            Registrarse
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mensajes flash -->
+    {% if messages %}
+    <div class="container mx-auto px-4 mt-4">
+        {% for message in messages %}
+        <div class="bg-{% if message.tags == 'success' %}green{% else %}red{% endif %}-500 text-white p-4 rounded mb-2">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Contenido principal -->
+    <main class="container mx-auto px-4 py-8">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Sistema de Gestión de Compras y Ventas</p>
+            <p class="text-gray-400 mt-2">Sera?</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'juegos/js/script.js' %}"></script>
+</body>
+</html>

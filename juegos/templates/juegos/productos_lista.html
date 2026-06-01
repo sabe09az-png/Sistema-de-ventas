@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-white">Productos</h1>
+        {% if user.is_superuser or user.groups.all.0.name == 'Administrador' %}
+        <a href="{% url 'crear_producto' %}" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white">+ Nuevo Producto</a>
+        {% endif %}
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-gray-800 rounded shadow">
+            <thead class="bg-gray-700">
+                <tr>
+                    <th class="px-4 py-2">Imagen</th>
+                    <th class="px-4 py-2">Nombre</th>
+                    <th class="px-4 py-2">P. Compra</th>
+                    <th class="px-4 py-2">P. Venta</th>
+                    <th class="px-4 py-2">Stock</th>
+                    <th class="px-4 py-2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr class="border-t border-gray-700">
+                    <td class="px-4 py-2">
+                        {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" class="w-12 h-12 object-cover rounded">
+                        {% else %}
+                        <span class="text-gray-500">Sin imagen</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-2">{{ producto.nombre }}</td>
+                    <td class="px-4 py-2">${{ producto.precio_compra }}</td>
+                    <td class="px-4 py-2">${{ producto.precio_venta }}</td>
+                    <td class="px-4 py-2 {% if producto.stock < 5 %}text-red-400 font-bold{% endif %}">{{ producto.stock }}</td>
+                    <td class="px-4 py-2 space-x-2">
+                        <a href="{% url 'editar_producto' producto.id %}" class="text-blue-400 hover:underline">Editar</a>
+                        <a href="{% url 'eliminar_producto' producto.id %}" class="text-red-400 hover:underline">Eliminar</a>
+                        <a href="{% url 'actualizar_stock' producto.id %}" class="text-green-400 hover:underline">Stock</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center py-4">No hay productos registrados.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

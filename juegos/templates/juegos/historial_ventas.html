@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-white">Historial de Ventas</h1>
+    </div>
+
+    <!-- Filtros -->
+    <div class="bg-gray-800 p-4 rounded mb-6">
+        <form method="get" class="flex flex-wrap gap-4 items-end">
+            <div>
+                <label class="block text-gray-300 mb-1">Fecha desde</label>
+                <input type="date" name="fecha_desde" value="{{ fecha_desde }}" class="bg-gray-700 text-white px-3 py-2 rounded">
+            </div>
+            <div>
+                <label class="block text-gray-300 mb-1">Fecha hasta</label>
+                <input type="date" name="fecha_hasta" value="{{ fecha_hasta }}" class="bg-gray-700 text-white px-3 py-2 rounded">
+            </div>
+            {% if vendedores %}
+            <div>
+                <label class="block text-gray-300 mb-1">Vendedor</label>
+                <select name="vendedor" class="bg-gray-700 text-white px-3 py-2 rounded">
+                    <option value="">Todos</option>
+                    {% for v in vendedores %}
+                    <option value="{{ v.id }}" {% if vendedor_seleccionado == v.id|stringformat:"s" %}selected{% endif %}>
+                        {{ v.username }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+            <div>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white">Filtrar</button>
+                <a href="{% url 'historial_ventas' %}" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded text-white ml-2">Limpiar</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabla de ventas -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-gray-800 rounded shadow">
+            <thead class="bg-gray-700">
+                <tr>
+                    <th class="px-4 py-2">ID</th>
+                    <th class="px-4 py-2">Cliente</th>
+                    <th class="px-4 py-2">Vendedor</th>
+                    <th class="px-4 py-2">Fecha</th>
+                    <th class="px-4 py-2">Total</th>
+                    <th class="px-4 py-2">Detalle</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in ventas %}
+                <tr class="border-t border-gray-700">
+                    <td class="px-4 py-2">{{ venta.id }}</td>
+                    <td class="px-4 py-2">{{ venta.cliente }}</td>
+                    <td class="px-4 py-2">{{ venta.vendedor.username }}</td>
+                    <td class="px-4 py-2">{{ venta.fecha|date:"d/m/Y H:i" }}</td>
+                    <td class="px-4 py-2">${{ venta.total }}</td>
+                    <td class="px-4 py-2">
+                        <a href="#" class="text-blue-400 hover:underline">Ver productos</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-4">No hay ventas registradas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{
+  "name": "gamedrop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "tailwindcss -i ./theme/src/input.css -o ./theme/static/css/output.css --watch",
+    "build-css-prod": "tailwindcss -i ./theme/src/input.css -o ./theme/static/css/output.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-white mb-6">Panel de Control</h1>
+
+    {% if productos_bajos %}
+    <div class="bg-yellow-100 text-yellow-800 p-4 rounded mb-6">
+        <h2 class="font-bold"> Productos con stock bajo (menos de 10 unidades):</h2>
+        <ul class="list-disc pl-5 mt-2">
+            {% for p in productos_bajos %}
+            <li>{{ p.nombre }} - Stock: {{ p.stock }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-800 p-6 rounded shadow">
+            <h2 class="text-xl font-bold text-white mb-3"> Ventas de hoy</h2>
+            {% if ventas_hoy %}
+            <ul class="text-gray-300 space-y-2">
+                {% for v in ventas_hoy %}
+                <li>{{ v.cliente }} + ${{ v.total }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-gray-400">No hay ventas registradas hoy.</p>
+            {% endif %}
+        </div>
+
+        <div class="bg-gray-800 p-6 rounded shadow">
+            <h2 class="text-xl font-bold text-white mb-3"> Compras recientes</h2>
+            {% if compras_recientes %}
+            <ul class="text-gray-300 space-y-2">
+                {% for c in compras_recientes %}
+                <li>{{ c.proveedor }} - ${{ c.total }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-gray-400">No hay compras recientes.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-8 flex space-x-4">
+        <a href="{% url 'registrar_venta' %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"> Nueva Venta</a>
+        <a href="{% url 'registrar_compra' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"> Nueva Compra</a>
+        <a href="{% url 'listar_productos' %}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"> Productos</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-white">Listado de Productos</h1>
+        <a href="{% url 'registrar_compra' %}" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white">+ Nueva Compra</a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-gray-800 rounded shadow">
+            <thead class="bg-gray-700">
+                <tr>
+                    <th class="px-4 py-2 text-left">ID</th>
+                    <th class="px-4 py-2 text-left">Nombre</th>
+                    <th class="px-4 py-2 text-left">Precio Compra</th>
+                    <th class="px-4 py-2 text-left">Precio Venta</th>
+                    <th class="px-4 py-2 text-left">Stock</th>
+                    <th class="px-4 py-2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr class="border-t border-gray-700">
+                    <td class="px-4 py-2">{{ producto.id }}</td>
+                    <td class="px-4 py-2">{{ producto.nombre }}</td>
+                    <td class="px-4 py-2">${{ producto.precio_compra }}</td>
+                    <td class="px-4 py-2">${{ producto.precio_venta }}</td>
+                    <td class="px-4 py-2 {% if producto.stock < 10 %}text-red-400 font-bold{% endif %}">{{ producto.stock }}</td>
+                    <td class="px-4 py-2 text-center">
+                        <a href="#" class="text-blue-400 hover:underline">Editar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="px-4 py-2 text-center text-gray-400">No hay productos registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

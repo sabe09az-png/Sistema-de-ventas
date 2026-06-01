@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ juego.titulo }} - Game-zher{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-gray-800 rounded-2xl p-8 mb-8">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Portada -->
+            <div class="flex-shrink-0">
+                {% if juego.portada %}
+                <img src="{{ juego.portada.url }}" alt="{{ juego.titulo }}" class="w-64 h-80 object-cover rounded-lg">
+                {% else %}
+                <div class="w-64 h-80 bg-gray-700 rounded-lg flex items-center justify-center">
+                    <span class="text-gray-400 text-4xl"></span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Información -->
+            <div class="flex-1">
+                <h1 class="text-3xl font-bold text-white mb-4">{{ juego.titulo }}</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <p class="text-gray-400">Género</p>
+                        <p class="text-white font-semibold">{{ juego.genero }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Desarrollador</p>
+                        <p class="text-white font-semibold">{{ juego.desarrollador }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Fecha de Lanzamiento</p>
+                        <p class="text-white font-semibold">{{ juego.fecha_de_lanzamiento }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Tamaño</p>
+                        <p class="text-white font-semibold">{{ juego.tamaño|default:"No especificado" }}</p>
+                    </div>
+                </div>
+                
+                <!-- Precio y Botones -->
+                <div class="mb-6">
+    <p class="text-3xl font-bold text-green-400 mb-4">${{ juego.precio }}</p>
+    
+    {% if user.is_authenticated %}
+        {% if juego in user_juegos_comprados %}
+            <button class="bg-green-500 text-white px-8 py-3 rounded-lg font-bold text-lg cursor-not-allowed" disabled>
+                 Ya en tu Biblioteca
+            </button>
+            <div class="mt-2">
+                <a href="{% url 'biblioteca' %}" class="text-blue-400 hover:text-blue-300">
+                    Ir a Mi Biblioteca para descargar
+                </a>
+            </div>
+        {% elif juego in user_juegos_carrito %}
+            <button class="bg-blue-500 text-white px-8 py-3 rounded-lg font-bold text-lg cursor-not-allowed" disabled>
+                 Ya en tu Carrito
+            </button>
+        {% else %}
+            <a href="{% url 'agregar_al_carrito' juego.id %}" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-bold text-lg transition-colors inline-block">
+                Agregar al Carrito
+            </a>
+        {% endif %}
+    {% else %}
+        <a href="{% url 'login' %}" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-bold text-lg transition-colors inline-block">
+            Iniciar Sesión para Comprar
+        </a>
+    {% endif %}
+</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Descripción -->
+    <div class="bg-gray-800 rounded-2xl p-8 mb-8">
+        <h2 class="text-2xl font-bold text-white mb-4">Descripción</h2>
+        <p class="text-gray-300 leading-relaxed">{{ juego.descripcion }}</p>
+    </div>
+    
+    <!-- Botón de volver -->
+    <div class="text-center">
+        <a href="{% url 'juegos_lista' %}" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-bold transition-colors">
+            ← Volver a Juegos
+        </a>
+    </div>
+</div>
+{% endblock %}
