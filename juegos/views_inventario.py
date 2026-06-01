@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Producto, Compra, Venta, Perfil, CompraDetalle, VentaDetalle, Proveedor
 from .forms import ProductoForm
+from django.http import HttpResponse
 
 # ========== REGISTRO ==========
 def registro(request):
@@ -27,6 +28,10 @@ def registro(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+    def test_view(request):
+    return HttpResponse("¡La aplicación está funcionando correctamente!")
+
 
 # ========== PROVEEDORES ==========
 @login_required
