@@ -29,6 +29,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+# ========== PRUEBA ==========
 def home_test(request):
     return HttpResponse("¡La aplicación está funcionando correctamente!")
 
@@ -297,9 +298,15 @@ def historial_compras(request):
     proveedor = request.GET.get('proveedor')
     
     if fecha_desde:
-        compras = compras.filter(fecha__date__gte=datetime.strptime(fecha_desde, '%Y-%m-%d').date())
+        try:
+            compras = compras.filter(fecha__date__gte=datetime.strptime(fecha_desde, '%Y-%m-%d').date())
+        except:
+            pass
     if fecha_hasta:
-        compras = compras.filter(fecha__date__lte=datetime.strptime(fecha_hasta, '%Y-%m-%d').date())
+        try:
+            compras = compras.filter(fecha__date__lte=datetime.strptime(fecha_hasta, '%Y-%m-%d').date())
+        except:
+            pass
     if proveedor:
         compras = compras.filter(proveedor__nombre__icontains=proveedor)
     
