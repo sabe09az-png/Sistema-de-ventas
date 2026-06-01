@@ -29,9 +29,8 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-    def test_view(request):
+def home_test(request):
     return HttpResponse("¡La aplicación está funcionando correctamente!")
-
 
 # ========== PROVEEDORES ==========
 @login_required
