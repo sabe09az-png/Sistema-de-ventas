@@ -22,7 +22,7 @@ urlpatterns = [
     
     # Proveedores
     path('proveedor/crear/', views_inventario.crear_proveedor, name='crear_proveedor'),
-    path('test/', test_view, name='test'),
+    path('test/', views_inventario.home_test, name='test'),
     
     # Autenticación
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
