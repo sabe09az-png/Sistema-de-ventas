@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "post-deploy": "python manage.py migrate && python crear_superusuario.py && python manage.py collectstatic --noinput"
+  }
+}
