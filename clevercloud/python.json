@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "post-deploy": "python manage.py migrate --noinput && python juegos/crear_admin.py && python manage.py collectstatic --noinput"
+    "post-deploy": "python manage.py migrate --noinput && python crear_admin.py && python manage.py collectstatic --noinput"
   }
 }
