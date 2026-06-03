@@ -6,6 +6,18 @@
     <title>{% block title %}Death System - Compras y Ventas{% endblock %}</title>
     <!-- SOLO EL CDN DE TAILWIND -->
     <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    primary: '#1a202c',
+                    secondary: '#2d3748',
+                }
+            }
+        }
+    }
+</script>
     {% load static %}
 </head>
 <body class="bg-black min-h-screen">
