@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Death System - Compras y Ventas{% endblock %}</title>
-    <link href="/static/css/output.css" rel="stylesheet">
+    <!-- CDN de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tus estilos personalizados si los tienes -->
     {% load static %}
+    <link href="{% static 'juegos/css/style.css' %}" rel="stylesheet">
 </head>
 <body class="bg-black min-h-screen">
     <!-- Header -->
@@ -17,26 +20,24 @@
                 </h1>
                 
                 <nav class="flex items-center space-x-6">
-                    <!-- Enlaces visibles para todos los usuarios autenticados -->
                     {% if user.is_authenticated %}
                         <a href="{% url 'dashboard' %}" class="hover:text-blue-400 transition-colors">Inicio</a>
                         <a href="{% url 'listar_productos' %}" class="hover:text-blue-400 transition-colors">Productos</a>
                         <a href="{% url 'registrar_venta' %}" class="hover:text-blue-400 transition-colors">Nueva Venta</a>
                         
-                        <!-- Solo Administrador puede ver compras y reportes completos -->
                         {% if user.is_superuser or user.groups.all.0.name == 'Administrador' %}
                             <a href="{% url 'registrar_compra' %}" class="hover:text-blue-400 transition-colors">Nueva Compra</a>
                             <a href="{% url 'historial_compras' %}" class="hover:text-blue-400 transition-colors">Historial Compras</a>
                             <a href="{% url 'historial_ventas' %}" class="hover:text-blue-400 transition-colors">Historial Ventas</a>
                         {% endif %}
 
-                        <span class="text-green-400"> {{ user.username }}</span>
-      <form action="{% url 'logout' %}" method="post" class="inline">
-    {% csrf_token %}
-    <button type="submit" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded transition-colors">
-        Salir
-    </button>
-</form>
+                        <span class="text-green-400">{{ user.username }}</span>
+                        <form action="{% url 'logout' %}" method="post" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded transition-colors">
+                                Salir
+                            </button>
+                        </form>
                     {% else %}
                         <a href="{% url 'login' %}" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded transition-colors">
                             Entrar
@@ -50,7 +51,6 @@
         </div>
     </header>
 
-    <!-- Mensajes flash -->
     {% if messages %}
     <div class="container mx-auto px-4 mt-4">
         {% for message in messages %}
@@ -61,13 +61,11 @@
     </div>
     {% endif %}
 
-    <!-- Contenido principal -->
     <main class="container mx-auto px-4 py-8">
         {% block content %}
         {% endblock %}
     </main>
 
-    <!-- Footer -->
     <footer class="bg-gray-900 text-white py-8 mt-12">
         <div class="container mx-auto px-4 text-center">
             <p>&copy; 2025 Sistema de Gestión de Compras y Ventas</p>
